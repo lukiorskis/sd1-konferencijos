@@ -2,25 +2,21 @@
 
 namespace App\Http\Controllers;
 
+use App\Models\Conference;
+
 class EmployeeConferenceController extends Controller
 {
     public function index()
     {
-        $conferences = conferences();
+        $conferences = Conference::with('users')->get();
 
         return view('employee.conferences.index', compact('conferences'));
     }
 
     public function show($id)
     {
-        $conference = conferences()[$id] ?? null;
+        $conference = Conference::with('users')->findOrFail($id);
 
-        if (!$conference) {
-            abort(404);
-        }
-
-        $registeredUsers = users();
-
-        return view('employee.conferences.show', compact('conference', 'registeredUsers'));
+        return view('employee.conferences.show', compact('conference'));
     }
 }

@@ -3,17 +3,33 @@
 <head>
     <meta charset="UTF-8">
     <title>Konferencijų sistema</title>
+
     <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/css/bootstrap.min.css" rel="stylesheet">
 </head>
 
 <body>
+
 <nav class="navbar navbar-dark bg-dark navbar-expand-lg mb-4">
     <div class="container">
         <a href="/" class="navbar-brand">Konferencijos</a>
 
         <div>
-            <a href="/login" class="btn btn-outline-light btn-sm">Login</a>
-            <a href="/register" class="btn btn-outline-light btn-sm">Register</a>
+            @auth
+                <span class="text-white me-2">
+                    {{ auth()->user()->name }}
+                </span>
+
+                <form method="POST" action="/logout" style="display:inline-block">
+                    @csrf
+                    <button class="btn btn-outline-light btn-sm">
+                        Logout
+                    </button>
+                </form>
+            @else
+                <a href="/login" class="btn btn-outline-light btn-sm">Login</a>
+                <a href="/register" class="btn btn-outline-light btn-sm">Register</a>
+            @endauth
+
             <a href="/client/conferences" class="btn btn-outline-light btn-sm">Klientas</a>
             <a href="/employee/conferences" class="btn btn-outline-light btn-sm">Darbuotojas</a>
             <a href="/admin" class="btn btn-outline-light btn-sm">Administratorius</a>
@@ -30,5 +46,6 @@
 
     @yield('content')
 </div>
+
 </body>
 </html>
